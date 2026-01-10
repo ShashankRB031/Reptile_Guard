@@ -1,0 +1,7 @@
+{
+  "name": "ReptileGuard - Administrative Edition",
+  "description": "A comprehensive Reptile Identification and Management System using administrative location data. No maps or GPS tracking.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
