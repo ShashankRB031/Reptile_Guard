@@ -1,6 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="ReptileGuard Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-
 # 🦎 ReptileGuard
 
 **Reptile Identification and Management System for Peri-Urban Wildlife Conservation**
@@ -35,7 +32,7 @@ ReptileGuard is a comprehensive wildlife conservation platform that helps citize
 
 ## 🎯 Demo
 
-> _Add your deployed demo link here after deployment_
+> https://reptileguard.vercel.app/
 
 ## 🚀 Installation
 
