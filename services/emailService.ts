@@ -142,6 +142,8 @@ export const sendSightingNotificationEmail = async (
         reporter_name: reporterInfo.name,
         reporter_mobile: reporterInfo.mobile,
         reporter_email: reporterInfo.email || 'Not provided',
+        reply_to: reporterInfo.email || 'no-reply@reptileguard.local',
+        from_name: 'ReptileGuard',
         
         // Reptile Info
         reptile_name: reptileData.name,
@@ -186,7 +188,8 @@ export const sendSightingNotificationEmail = async (
       console.log(`✅ Email sent to officer: ${officer.name} (${officer.email})`);
     } catch (error: any) {
       console.error(`❌ Failed to send email to ${officer.email}:`, error);
-      results.errors.push(`Failed to notify ${officer.name}: ${error.message || 'Unknown error'}`);
+      const msg = typeof error?.text === 'string' ? error.text : error?.message || 'Unknown error';
+      results.errors.push(`Failed to notify ${officer.name}: ${msg}`);
     }
   }
 
@@ -242,13 +245,15 @@ export const notifyOfficersAboutSighting = async (
       sightingTime
     );
 
-    return {
+    const base = {
       success: emailResult.success,
-      notifiedCount: emailResult.sentCount,
-      message: emailResult.success 
-        ? `${emailResult.sentCount} wildlife officer(s) have been notified via email.`
-        : `Notification partially failed. ${emailResult.sentCount} of ${officers.length} officers notified.`
+      notifiedCount: emailResult.sentCount
     };
+    if (emailResult.success) {
+      return { ...base, message: `${emailResult.sentCount} wildlife officer(s) have been notified via email.` };
+    }
+    const reason = emailResult.errors[0] ? ` Reason: ${emailResult.errors[0]}` : '';
+    return { ...base, message: `Notification partially failed. ${emailResult.sentCount} of ${officers.length} officers notified.${reason}` };
   } catch (error: any) {
     console.error('Error notifying officers:', error);
     return {
